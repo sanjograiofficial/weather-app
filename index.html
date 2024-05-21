@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        .container{
+            background-color: rgb(184, 186, 188);
+            border: 2px solid rgb(120, 20, 20);
+            border-radius: 12px;
+        }
+        .mid{
+            display: flex;
+            justify-content: center;
+        }
+        .mid > img{
+            height: 150px;
+            position: relative;
+            
+        }
+        .humid{
+            float: left;
+        }
+        .wind{
+            float: left;
+        }
+        .city,.temp{
+            display: flex;
+            justify-content: center;
+        }
+        .top{
+            display: flex;
+            justify-content: center;
+        }
+        #btn{
+            background-color: rgb(40, 99, 154);
+            border-radius: 5px;
+        }
+        #btn:hover{
+            cursor: pointer;
+            background-color: aqua;
+        }
+        #btn:active{
+            transform: translateY(2px);
+        }
+        #input{
+            border-radius: 5px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 style="display: flex; justify-content: center;">Weather</h1>
+        <div class="top">
+            <input type="text" name="" id="input">
+            <button onclick="weather()" id="btn">Go</button>
+        </div>    
+        <div class="city">
+            <h1 id="place"></h1><br><br>
+        </div>
+        <div class="mid">
+            
+            <img src="https://cdn-icons-png.flaticon.com/512/7477/7477790.png" alt="" id="image"><br>
+           
+        </div>
+        <div class="temp">
+            <h1 id="tempe"></h1>
+        </div>
+        <div class="bottom">
+            <div class="humid">
+                <img src="https://cdn-icons-png.flaticon.com/512/9342/9342300.png" alt="" style="height: 100px;"><br>
+                <p id="humidity" style="display: flex; justify-content: center;"></p>
+            </div>
+            <div class="wind">
+                <img src="https://www.clipartbest.com/cliparts/KTn/LX6/KTnLX6KAc.png" alt="" style="height: 100px;"><br>
+                <p id="air" style="display: flex; justify-content: center;"></p>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        
+        const key = "ebecad1011a1feda12af51363e5fa655";
+        const url = "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}"
+        async function weather(){
+            const city = document.getElementById("input").value.toLowerCase();
+            let imgicon = document.getElementById("image");
+            const response = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key);
+            const data = await response.json();
+            console.log(data);
+            let kel = Math.round(data.main.temp);
+            let cel = kel - 273;
+            document.getElementById("place").innerHTML = data.name;
+            document.getElementById("tempe").innerHTML = cel + "°C";
+            document.getElementById("humidity").innerHTML = data.main.humidity + "% <br> Humidity";
+            document.getElementById("air").innerHTML = data.wind.speed + "km/hr <br> Wind Speed";
+
+            if(data.weather[0].main == "Clouds"){
+                image.src = "images/clouds.png";
+            }
+            else if(data.weather[0].main == "Clear"){
+                image.src = "images/clear.png";
+            }
+            else if(data.weather[0].main == "Rain"){
+                image.src = "images/rain.png";
+            }
+            else if(data.weather[0].main == "Drizzle"){
+                image.src = "images/drizzle.png";
+            }
+            else if(data.weather[0].main == "Mist"){
+                image.src = "images/mist.png";
+            }
+        }
+    </script>
+</body>
+</html>
